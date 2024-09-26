@@ -1,5 +1,5 @@
 import CARD from "./mock"
-import Content from "./components/Content";
+import Content from "./components/Content.jsx";
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
