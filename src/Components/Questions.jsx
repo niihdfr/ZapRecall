@@ -1,9 +1,7 @@
-import styled from 'styled-components';
 
-function Questions ({CARD}) {
-    return (
-        
-    )
+
+function Questions () {
+    return 
 }
 
 export default Questions;
