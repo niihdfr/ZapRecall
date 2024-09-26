@@ -23,7 +23,7 @@ function App() {
   return (
     <>
     <GlobalStyle />
-      <Content card = {CARD}/>
+      <Content card= {CARD}/>
     </>
   )
 }
