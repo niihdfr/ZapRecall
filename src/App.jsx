@@ -1,5 +1,5 @@
 
-import Content from "./components/Content.jsx";
+import Content from "./Components/Content.jsx";
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
