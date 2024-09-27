@@ -9,13 +9,20 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 70px;
+    overflow-x: hidden;
+}
+
   body {
     margin: 0;
     padding: 0;
     background-color: #FB6B6B;
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
+
+    
   }
 `;
 

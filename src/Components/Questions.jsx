@@ -1,8 +1,8 @@
-import seta from "../assets/seta_play.png";
-import FlipCards from "./FlipCards"
+import play from "../assets/seta_play.png";
+import FlipCards from "./FlipCards";
 import styled from "styled-components";
+import Counter from "./Counter";
 import { useState } from "react";
-
 
 const CARDS = [
     { question: "Qual é o país mais populoso do mundo?", answer: "A China, com mais de 1,4 bilhão de habitantes." },
@@ -14,78 +14,125 @@ const CARDS = [
     { question: "Em qual país o sushi foi criado?", answer: "O sushi tem origem no Japão." },
     { question: "Qual deserto é considerado o maior do mundo?", answer: "O Deserto da Antártica, que é um deserto polar." }
 ];
+
 function Questions() {
-    const [openCardIndex, setOpenCardIndex] = useState(null);
+    const [contador, setContador] = useState(0);
+    const [respondidos, setRespondidos] = useState(Array(CARDS.length).fill(null)); 
 
-    return (
-      <Perguntas>
-        {CARDS.map((card, index) => (
-          <Card
-            key={index}
-            index={index}
-            card={card}
-            openCardIndex={openCardIndex}
-            setOpenCardIndex={setOpenCardIndex}
-          />
-        ))}
-      </Perguntas>
-    );
-}
-
-function Card({ index, card, openCardIndex, setOpenCardIndex }) {
-    const isCardOpen = openCardIndex === index;
-
-    
-    const handleClick = () => {
-        setOpenCardIndex(isCardOpen ? null : index);
+    const incrementarContador = () => {
+        setContador(prev => prev + 1);
     };
 
     return (
-      <Pergunta>
-        {!isCardOpen ? (
-          <>
-            <h2>Pergunta {index + 1}</h2>
-            <img src={seta} alt="Play" onClick={handleClick} />
-          </>
-        ) : (
-          <>
-            <FlipCards />
-          </>
-        )}
-      </Pergunta>
+        <>
+            <Perguntas>
+                {CARDS.map((card, index) => (
+                    <Card
+                        key={index}
+                        index={index}
+                        card={card}
+                        incrementarContador={incrementarContador}
+                        respondido={respondidos[index]}
+                        setRespondido={(resposta) => {
+                            const novosRespondidos = [...respondidos];
+                            novosRespondidos[index] = resposta;
+                            setRespondidos(novosRespondidos);
+                        }}
+                    />
+                ))}
+            </Perguntas>
+            <Counter contador={contador} />
+        </>
+    );
+}
+
+function Card({ index, card, incrementarContador, respondido, setRespondido }) {
+    const [perguntar, setPerguntar] = useState(false);
+
+    const handleResposta = (resposta) => {
+        setRespondido(resposta);
+        incrementarContador(); 
+        setPerguntar(false); 
+    };
+
+    return (
+        <Pergunta perguntar={perguntar}>
+            {!perguntar ? (
+                <>
+                    <h2 className={respondido ? `riscado ${respondido}` : ""}>Pergunta {index + 1}</h2>
+                    <Icon respondido={respondido} setPerguntar={setPerguntar} />
+                </>
+            ) : (
+                <FlipCards
+                    question={card.question}
+                    answer={card.answer}
+                    handleResposta={handleResposta} 
+                />
+            )}
+        </Pergunta>
+    );
+}
+
+function Icon({ respondido, setPerguntar }) {
+    return (
+        <>
+            {!respondido ? (
+                <img src={play} alt="play" onClick={() => setPerguntar(true)} />
+            ) : (
+                <ion-icon name={respondido}></ion-icon>
+            )}
+        </>
     );
 }
 
 export default Questions;
 
 const Perguntas = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 `;
 
 const Pergunta = styled.div`
-  width: 300px;
-  height: 65px;
-  display: flex;
-  justify-content: space-between;
-  padding: 0px 15px;
-  align-items: center;
-  background-color: white;
-  border-radius: 5px;
-  margin-bottom: 25px;
-  h2 {
-  color: #333333;
-  font-family: 'Recursive', Arial;
-  font-size: 16px;
-  font-weight: 700;
-  }
+    width: 300px;
+    height: ${(props) => (props.perguntar ? "131px" : "65px")};
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 15px;
+    background-color: ${(props) => (props.perguntar ? "#FFFFD4" : "white")};
+    border-radius: 5px;
+    margin-bottom: 25px;
+    transition: height 0.3s ease;
 
-  img {
-    width: 20px;
-    height: 23px;
-    cursor: pointer;
-  }
+    h2 {
+        color: #333333;
+        font-family: 'Recursive', Arial;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    h2.riscado {
+        text-decoration: line-through;
+    }
+
+    h2.riscado.red {
+        color: #FF3030; // Cor para a opção "Não lembrei"
+    }
+
+    h2.riscado.orange {
+        color: #FF922E; // Cor para a opção "Quase não lembrei"
+    }
+
+    h2.riscado.green {
+        color: #2FBE34; // Cor para a opção "Zap!"
+    }
+
+    img {
+        width: 20px;
+        height: 23px;
+        cursor: pointer;
+    }
 `;

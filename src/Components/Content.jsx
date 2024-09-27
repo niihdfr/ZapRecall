@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import logo from "../assets/logo.png"
 import Questions from "./Questions"
-import Counter from './Counter';
 
 function Content() {
 
