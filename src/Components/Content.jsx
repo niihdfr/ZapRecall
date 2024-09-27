@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import logo from "../assets/logo.png"
+import Questions from "./Questions"
+import Counter from './Counter';
 
 function Content() {
 
@@ -7,9 +9,10 @@ function Content() {
     return (
         <>          
             <Header>
-                    <img src={logo} alt="ZapRecallLogo" />
+                    <img src={logo} alt="Logo" />
                     <h1>ZapRecall</h1>
             </Header>
+            <Questions  />
         </>
     )
     
@@ -23,6 +26,8 @@ const Header = styled.div `
             justify-content: center;
             margin: 42px 51px 0px 0px;
             gap: 20px;
+            margin-bottom: 51px;
+            width: 100%;
 
                 h1 {
                     font-family: "Righteous", Arial;
