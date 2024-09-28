@@ -37,5 +37,16 @@ Dependendo da escolha do usuário, o ícone muda para o status correspondente:
 ```bash
 git clone https://github.com/seu-usuario/zap-recall.git
 
+2. Instale as dependências:
+bash
+npm install
+
+3. Execute o servidor local:
+bash
+npm run dev
+
+4. Acesse o aplicativo no navegador:
+http://localhost:3000
+
 
 
